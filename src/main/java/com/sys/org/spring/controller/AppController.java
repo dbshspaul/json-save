@@ -39,6 +39,12 @@ public class AppController {
         return jsonRepository.findAll();
     }
 
+    @GetMapping(value = "/jira", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    JSONModel findById(@RequestParam(value = "id") String id) {
+        return jsonRepository.findOne(id);
+    }
+
     @PostMapping(value = "/", produces = MediaType.TEXT_PLAIN_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseBody()
     public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
