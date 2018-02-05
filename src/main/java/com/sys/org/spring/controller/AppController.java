@@ -10,12 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.websocket.server.PathParam;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,15 +31,15 @@ public class AppController {
     @Autowired
     JSONRepository jsonRepository;
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     List<JSONModel> getAll() {
         return jsonRepository.findAll();
     }
 
-    @GetMapping(value = "/jira", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value = "/jira/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    JSONModel findById(@RequestParam(value = "id") String id) {
+    JSONModel findById(@PathVariable(value = "id") String id) {
         return jsonRepository.findOne(id);
     }
 
@@ -64,9 +62,9 @@ public class AppController {
         return new ResponseEntity<Object>("Data Inserted Successfully", HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/all", produces = MediaType.TEXT_PLAIN_VALUE)
+    @PostMapping(value = "/upload", produces = MediaType.TEXT_PLAIN_VALUE)
     @ResponseBody()
-    public ResponseEntity uploadAllFile(@RequestParam(value = "path") String path) {
+    public ResponseEntity uploadAllFile(@RequestParam(value = "path",required = true) String path) {
         File folder = new File(path);
         if (folder.isFile()) {
             return new ResponseEntity("Invalid Directory", HttpStatus.NOT_FOUND);

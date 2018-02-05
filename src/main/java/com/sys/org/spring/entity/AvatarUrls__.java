@@ -1,6 +1,11 @@
 
 package com.sys.org.spring.entity;
 
+import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -22,6 +27,8 @@ public class AvatarUrls__ {
     private String _16x16;
     @JsonProperty("32x32")
     private String _32x32;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("48x48")
     public String get48x48() {
@@ -61,6 +68,16 @@ public class AvatarUrls__ {
     @JsonProperty("32x32")
     public void set32x32(String _32x32) {
         this._32x32 = _32x32;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
 }

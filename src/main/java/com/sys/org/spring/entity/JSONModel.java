@@ -1,6 +1,11 @@
 
 package com.sys.org.spring.entity;
 
+import java.util.HashMap;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -13,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "key",
     "fields"
 })
-
 public class JSONModel {
 
     @JsonProperty("expand")
@@ -26,6 +30,8 @@ public class JSONModel {
     private String key;
     @JsonProperty("fields")
     private Fields fields;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("expand")
     public String getExpand() {
@@ -75,6 +81,16 @@ public class JSONModel {
     @JsonProperty("fields")
     public void setFields(Fields fields) {
         this.fields = fields;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
 }
